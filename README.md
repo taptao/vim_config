@@ -11,7 +11,7 @@ Vim-plug helps me manage all my plugins.
 
    ```bash
    mv ~/.vimrc ~/.vimrc.original
-   git clone https://github.com/zhenlonghe/Vimrc.git ~/.vim && \
+   git clone https://github.com/taptao/vim_config.git ~/.vim && \
    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
    ln -s .vim/vimrc .vimrc
