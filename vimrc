@@ -248,6 +248,10 @@ call plug#end()
     vm < <gv
     vm > >gv
 
+    " Tab ctrl
+    nnoremap H gT
+    nnoremap L gt
+
     " Stupid shift key fixes
     if has("user_commands")
         command! -bang Wa     wa<bang>
@@ -375,6 +379,20 @@ call plug#end()
             nmap <F4> :YcmDiags<CR>
         endif
 
+    "}
+    "NERDTree {
+        if isdirectory(expand("~/.vim/plugged/nerdtree/"))
+            "隐藏目录树中的.pyc文件
+            let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+            map <F2> :NERDTreeToggle<CR>
+        endif
+    "}
+    "godef {
+        if isdirectory(expand("~/.vim/plugged/vim-godef/"))
+            let g:godef_split=2
+            "let g:godef_split=3 """左右打开新窗口的时候
+            "let g:godef_same_file_in_same_window=1 """函数在同一个文件中时不需要打开新窗口
+        endif
     "}
 "}
 
