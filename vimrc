@@ -37,6 +37,8 @@ Plug 'fatih/vim-go'
 " depend ack rpm
 Plug 'mileszs/ack.vim'
 
+Plug 'skywind3000/asyncrun.vim'
+
 call plug#end()
 
 " General {
