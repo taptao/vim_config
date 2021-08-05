@@ -33,6 +33,10 @@ Plug 'dgryski/vim-godef'
 
 Plug 'majutsushi/tagbar'
 
+Plug 'fatih/vim-go'
+" depend ack rpm
+Plug 'mileszs/ack.vim'
+
 call plug#end()
 
 " General {
@@ -208,7 +212,6 @@ call plug#end()
     cm <C-E> <End>
 
     nm <leader>n  :ene<CR>
-    nm <leader>o  :TagbarToggle<CR>
     nm <leader>c  :bd!<cr>
     nm <leader>w  :bd<cr>
     nm <leader>qq :q!<cr>
@@ -251,6 +254,8 @@ call plug#end()
     " Tab ctrl
     nnoremap H gT
     nnoremap L gt
+    " normal mode , easy to work
+    nnoremap <leader><CR>  A<CR><ESC>
 
     " Stupid shift key fixes
     if has("user_commands")
@@ -355,8 +360,9 @@ call plug#end()
         endif
     "}
     "tarbar {
-        if isdirectory(expand("~/.vim/plugged/tarbar.vim/"))
-            nmap <silent> <F9> :TagbarToggle<CR>        "按F9即可打开tagbar界面
+        if isdirectory(expand("~/.vim/plugged/tagbar/"))
+            nm <leader>o  :TagbarToggle<CR>
+            "nmap <silent> <F9> :TagbarToggle<CR>        "按F9即可打开tagbar界面
             let g:tagbar_ctags_bin = 'ctags'                       "tagbar以来ctags插件
             let g:tagbar_left = 1                                          "让tagbar在页面左侧显示，默认右边
             let g:tagbar_width = 30                                     "设置tagbar的宽度为30列，默认40
@@ -371,7 +377,7 @@ call plug#end()
             let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'  "设置全局配置文件的路径
             let g:ycm_server_python_interpreter='/usr/bin/python3'
             let g:ycm_autoclose_preview_window_after_completion=1
-            let g:ycm_error_symbol = '>>'
+            let g:ycm_error_symbol = '*'
             let g:ycm_warning_symbol = '>*'
             nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
             nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
@@ -392,6 +398,13 @@ call plug#end()
             let g:godef_split=2
             "let g:godef_split=3 """左右打开新窗口的时候
             "let g:godef_same_file_in_same_window=1 """函数在同一个文件中时不需要打开新窗口
+        endif
+    "}
+    "ack {
+        if isdirectory(expand("~/.vim/plugged/ack.vim/"))
+            nnoremap <Leader><Leader>a "zyiw:exe ":Ack!<space>-i<space>".@z""<CR>
+            "nmap <Leader><Leader>a :Ack!<space>-i<space>
+            let g:ackprg = 'ag --nogroup --nocolor --column'
         endif
     "}
 "}
