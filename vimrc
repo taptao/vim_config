@@ -38,6 +38,7 @@ Plug 'fatih/vim-go'
 Plug 'mileszs/ack.vim'
 
 Plug 'skywind3000/asyncrun.vim'
+Plug 'takac/vim-hardtime'
 
 call plug#end()
 
@@ -201,17 +202,34 @@ call plug#end()
     nm <c-k> :bp<cr>
     nm <tab> <c-w>w
     " emacs key bind
-    im <c-a> <HOME>
-    im <c-e> <END>
-    im <C-f> <Right>
-    im <C-b> <Left>
-    im <M-f> <S-Right>
-    im <M-b> <S-Left>
-    im <M-n> <Down>
-    im <M-p> <Up>
+    "im <c-a> <HOME>
+    "im <c-e> <END>
+    "im <C-f> <Right>
+    "im <C-b> <Left>
+    "im <M-f> <S-Right>
+    "im <M-b> <S-Left>
+    "im <M-n> <Down>
+    "im <M-p> <Up>
     im jj <esc>
-    cm <C-A> <Home>
-    cm <C-E> <End>
+    "cm <C-A> <Home>
+    "cm <C-E> <End>
+    
+    " insert mode shortcut
+    im <c-h> <Left>
+    im <c-j> <Down>
+    im <c-k> <UP>
+    im <c-l> <Right>
+    im <c-d> <DElETE>
+
+    " stop arrow key
+    noremap <Up> <NOP>
+    noremap <Down> <NOP>
+    noremap <Left> <NOP>
+    noremap <Right> <NOP>
+    "noremap h <NOP>
+    "noremap j <NOP>
+    "noremap k <NOP>
+    "noremap l <NOP>
 
     nm <leader>n  :ene<CR>
     nm <leader>c  :bd!<cr>
@@ -379,7 +397,7 @@ call plug#end()
             let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'  "设置全局配置文件的路径
             let g:ycm_server_python_interpreter='/usr/bin/python3'
             let g:ycm_autoclose_preview_window_after_completion=1
-            let g:ycm_error_symbol = '*'
+            let g:ycm_error_symbol = '>>'
             let g:ycm_warning_symbol = '>*'
             nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
             nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
@@ -391,8 +409,9 @@ call plug#end()
     "NERDTree {
         if isdirectory(expand("~/.vim/plugged/nerdtree/"))
             "隐藏目录树中的.pyc文件
-            let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-            map <F2> :NERDTreeToggle<CR>
+            let NERDTreeIgnore=['\.pyc$', '\~$','\.swp','\.git'] "ignore files in NERDTree
+            map <F2> :NERDTreeFind<CR>
+            "map <F2> :NERDTreeToggle<CR>
         endif
     "}
     "godef {
