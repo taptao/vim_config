@@ -16,6 +16,7 @@ Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 " tab 提示信息，非代码补全
 Plug 'ervandew/supertab'
+
 Plug 'vim-scripts/SearchComplete'
 " 显示git差异
 Plug 'airblade/vim-gitgutter',{'frozen':1}
@@ -40,8 +41,35 @@ Plug 'mileszs/ack.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'takac/vim-hardtime'
 
+" 有道词典在线翻译
+Plug 'ianva/vim-youdao-translater'
+
+" 可以使 nerdtree 的 tab 更加友好些
+Plug 'jistr/vim-nerdtree-tabs'
+
+" 可以在导航目录中看到 git 版本信息
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" 下面两个插件要配合使用，可以自动生成代码块
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+" markdown 插件
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'elzr/vim-json'
+
+" tempate
+Plug 'aperezdc/vim-template'
+
+Plug 'pedrohdz/vim-yaml-folds'
+
+"Plug'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+
 call plug#end()
 
+    let g:go_fmt_autosave = 0
 " General {
     set nocompatible
     syntax on                           " Syntax highlighting
@@ -187,7 +215,7 @@ call plug#end()
     nm  <space> <nop>
 
     nm 0 ^
-    nm B ^
+    "nm B ^
     nm E $
     nm j gj
     nm k gk
@@ -200,6 +228,9 @@ call plug#end()
     " c-j,k for buffer switch
     nm <c-j> :bn<cr>
     nm <c-k> :bp<cr>
+    " Tab ctrl
+    nm <c-h> gT
+    nm <c-l> gt
     nm <tab> <c-w>w
     " emacs key bind
     "im <c-a> <HOME>
@@ -231,9 +262,9 @@ call plug#end()
     "noremap k <NOP>
     "noremap l <NOP>
 
-    nm <leader>n  :ene<CR>
-    nm <leader>c  :bd!<cr>
-    nm <leader>w  :bd<cr>
+    "nm <leader>n  :ene<CR>
+    "nm <leader>c  :bd!<cr>
+    "nm <leader>w  :bd<cr>
     nm <leader>qq :q!<cr>
     nm <leader>xx :qa!<cr>
     nm <leader>t  :set ft=
@@ -248,8 +279,8 @@ call plug#end()
     nm <leader>s  :source $MYVIMRC<cr>
 
     " mouse
-    nm <leader>sv :set mouse=v<cr>
-    nm <leader>sa :set mouse=a<cr>
+    "nm <leader>sv :set mouse=v<cr>
+    "nm <leader>sa :set mouse=a<cr>
 
     " Some helpers to edit mode
     cm %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
@@ -271,9 +302,6 @@ call plug#end()
     vm < <gv
     vm > >gv
 
-    " Tab ctrl
-    nnoremap H gT
-    nnoremap L gt
     " normal mode , easy to work
     nnoremap <leader><CR>  A<CR><ESC>
 
@@ -316,7 +344,9 @@ call plug#end()
     nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
     "set tag=tag;
 
-
+    " yaml autocmd
+    "autocmd FileType yaml set foldmethod=indent
+    "autocmd FileType yaml %s/---\(.*\)\(\_.\{-}title: \)\(.*\)/---\1 #{{{1 \3\2\3/g}}}
 
 "}
 
@@ -388,6 +418,34 @@ call plug#end()
             let g:tagbar_width = 30                                     "设置tagbar的宽度为30列，默认40
             let g:tagbar_autofocus = 1                                "这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
             let g:tagbar_sort = 0                                         "设置标签不排序，默认排序
+            let g:tagbar_type_go = {
+                \ 'ctagstype' : 'go',
+                \ 'kinds'     : [
+                    \ 'p:package',
+                    \ 'i:imports:1',
+                    \ 'c:constants',
+                    \ 'v:variables',
+                    \ 't:types',
+                    \ 'n:interfaces',
+                    \ 'w:fields',
+                    \ 'e:embedded',
+                    \ 'm:methods',
+                    \ 'r:constructor',
+                    \ 'f:functions'
+                \ ],
+                \ 'sro' : '.',
+                \ 'kind2scope' : {
+                    \ 't' : 'ctype',
+                    \ 'n' : 'ntype'
+                \ },
+                \ 'scope2kind' : {
+                    \ 'ctype' : 't',
+                    \ 'ntype' : 'n'
+                \ },
+                \ 'ctagsbin'  : 'gotags',
+                \ 'ctagsargs' : '-sort -silent'
+            \ }
+
         endif
     "}
     "YCM {
@@ -399,10 +457,11 @@ call plug#end()
             let g:ycm_autoclose_preview_window_after_completion=1
             let g:ycm_error_symbol = '>>'
             let g:ycm_warning_symbol = '>*'
-            nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
-            nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
-            nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+            "nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+            "nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+            "nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
             nmap <F4> :YcmDiags<CR>
+
         endif
 
     "}
@@ -411,11 +470,34 @@ call plug#end()
             "隐藏目录树中的.pyc文件
             let NERDTreeIgnore=['\.pyc$', '\~$','\.swp','\.git'] "ignore files in NERDTree
             map <F2> :NERDTreeFind<CR>
-            "map <F2> :NERDTreeToggle<CR>
+            "" 显示行号
+            let NERDTreeShowLineNumbers=1
+            " 打开文件时是否显示目录
+            let NERDTreeAutoCenter=1
+            " 是否显示隐藏文件
+            let NERDTreeShowHidden=0
+            " 设置宽度
+            " let NERDTreeWinSize=31
+            " 忽略一下文件的显示
+            let NERDTreeIgnore=['\.pyc','\~$','\.swp']
+            " 打开 vim 文件及显示书签列表
+            let NERDTreeShowBookmarks=2
+
+            " 在终端启动vim时，共享NERDTree
+            "let g:nerdtree_tabs_open_on_console_startup=1
+            "
+            let NERDTreeMapOpenInTab='<ENTER>'
+
         endif
     "}
     "godef {
         if isdirectory(expand("~/.vim/plugged/vim-godef/"))
+
+            "let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+            "let g:go_metalinter_autosave = 1
+            "let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+            "let g:go_metalinter_deadline = "5s"
+
             let g:godef_split=2
             "let g:godef_split=3 """左右打开新窗口的时候
             "let g:godef_same_file_in_same_window=1 """函数在同一个文件中时不需要打开新窗口
@@ -428,6 +510,81 @@ call plug#end()
             let g:ackprg = 'ag --nogroup --nocolor --column'
         endif
     "}
+    "youdao-translater{
+        if isdirectory(expand("~/.vim/plugged/vim-youdao-translater/"))
+            vnoremap <silent> <C-T> :<C-u>Ydv<CR>
+            nnoremap <silent> <C-T> :<C-u>Ydc<CR>
+        noremap <leader>yd :<C-u>Yde<CR>
+        endif
+    "}
+    "utisnips {
+        if isdirectory(expand("~/.vim/plugged/ultisnips"))
+            " Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+            " - https://github.com/Valloric/YouCompleteMe
+            " - https://github.com/nvim-lua/completion-nvim
+            let g:ycm_key_list_select_completion = ['<C-n>']
+            let g:ycm_key_list_previous_completion = ['<C-p>']
+            let g:SuperTabDefaultCompletionType = '<C-n>'
+
+            let g:UltiSnipsExpandTrigger="<tab>"
+            let g:UltiSnipsJumpForwardTrigger="<c-b>"
+            let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+            " If you want :UltiSnipsEdit to split your window.
+            let g:UltiSnipsEditSplit="vertical"
+        endif
+    "}
+    "markdown {
+        if isdirectory(expand("~/.vim/plugged/markdown-preview.vim/"))
+            map <silent> <F5> <Plug>MarkdownPreview
+            map <silent> <F6> <Plug>StopMarkdownPreview
+        endif
+    "}
+    "nerdtree-git {
+        if isdirectory(expand("~/.vim/plugged/nerdtree-git-plugin/"))
+            let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ "Modified"  : "✹",
+                \ "Staged"    : "✚",
+                \ "Untracked" : "✭",
+                \ "Renamed"   : "➜",
+                \ "Unmerged"  : "═",
+                \ "Deleted"   : "✖",
+                \ "Dirty"     : "✗",
+                \ "Clean"     : "✔︎",
+                \ 'Ignored'   : '☒',
+                \ "Unknown"   : "?"
+                \ }
+            let g:NERDTreeGitStatusShowIgnored = 1
+        endif
+    "}
+    "
+    " vim-go {
+        if isdirectory(expand("~/.vim/plugged/vim-go/"))
+            let g:go_test_timeout = '10s'
+
+            " run :GoBuild or :GoTestCompile based on the go file
+            function! s:build_go_files()
+              let l:file = expand('%')
+              if l:file =~# '^\f\+_test\.go$'
+                call go#test#Test(0, 1)
+              elseif l:file =~# '^\f\+\.go$'
+                call go#cmd#Build(0)
+              endif
+            endfunction
+            let g:go_fmt_command = "goimports"
+            let g:go_fmt_fail_silently = 1
+            let g:go_fmt_autosave = 0
+            autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+            nm <leader>R :GoRename 
+            nm <leader>a :cclose<CR>
+            let g:go_list_type = "quickfix"
+        endif
+    " }
+    " vim-json {
+        if isdirectory(expand("~/.vim/plugged/vim-json/"))
+            setlocal foldmethod=syntax
+        endif
+    " }
+    "
 "}
 
 " Functions {
