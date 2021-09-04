@@ -380,6 +380,12 @@ call plug#end()
 
     " fugitive {
         if isdirectory(expand("~/.vim/plugged/vim-fugitive/"))
+            " set up git config
+            "git config --global diff.tool vimdiff
+            "git config --global difftool.prompt false
+            "git config --global alias.d difftool
+            "git config --global difftool.trustExitCode true
+            "git config --global mergetool.trustExitCode true
             nnoremap <silent> <leader>gs :Gstatus<CR>
             nnoremap <silent> <leader>gd :Gdiff<CR>
             nnoremap <silent> <leader>gc :Gcommit<CR>
