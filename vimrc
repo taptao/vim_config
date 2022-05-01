@@ -251,6 +251,16 @@ call plug#end()
     im <c-k> <UP>
     im <c-l> <Right>
     im <c-d> <DElETE>
+    
+    " delete but not copy
+    nnoremap x "_x
+    nnoremap X "_X
+    vm x "_x
+    vm X "_X
+	
+    nnoremap <leader>diw "_diw
+    vm <leader>diw "_diw
+
 
     " stop arrow key
     noremap <Up> <NOP>
