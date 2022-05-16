@@ -11,7 +11,6 @@
     set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,gbk,euc-kr,utf-bom
             " On mac and Windows, use * register for copy-paste
     set clipboard=unnamed
-    endif
 
     set shortmess+=filmnrxoOtT          " Abbrev. of messages
     set viewoptions=folds,options,cursor,unix,slash
