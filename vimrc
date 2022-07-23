@@ -74,7 +74,8 @@ call plug#end()
     set nocompatible
     syntax on                           " Syntax highlighting
     filetype plugin indent on           " Automatically detect file types.
-    set mouse=v                         " Automatically enable mouse usage
+    set mouse=a
+    "set mouse=v                         " Automatically enable mouse usage
     set mousehide                       " Hide the mouse cursor while typing
     set noimdisable                     " Disable IME
     set encoding=utf-8
