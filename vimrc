@@ -27,7 +27,7 @@ Plug 'morhetz/gruvbox'
 " ?
 Plug 'nathangrigg/vim-beancount'
 " 自动补全插件
-Plug 'ycm-core/YouCompleteMe'
+" Plug 'ycm-core/YouCompleteMe'
 " 文件树形结构,使用方法是在VIM命令模式下输入:NERDTree
 Plug 'scrooloose/nerdtree'
 Plug 'dgryski/vim-godef'
