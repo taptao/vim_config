@@ -66,6 +66,9 @@ Plug 'pedrohdz/vim-yaml-folds'
 
 "Plug'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
+"l:
+
+Plug 'wellle/targets.vim'
 
 call plug#end()
 
