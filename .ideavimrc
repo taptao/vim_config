@@ -13,20 +13,13 @@ set highlightedyank
 
 set vim-paragraph-motion
 set NERDTree
-
 """ Plugin settings -------------------------
 let g:argtextobj_pairs="[:],(:),<:>"
 
-
-" Remap multiple-cursors shortcuts for Mac
-nmap <C-n> <Plug>NextWholeOccurrence
-xmap <C-n> <Plug>NextWholeOccurrence
-nmap <C-x> <Plug>SkipOccurrence
-xmap <C-x> <Plug>SkipOccurrence
-nmap <C-p> <Plug>RemoveOccurrence
-xmap <C-p> <Plug>RemoveOccurrence
-nmap <S-C-n> <Plug>AllWholeOccurrences
-xmap <S-C-n> <Plug>AllWholeOccurrences
+""" settings ---------------------------
+" 为IdeaVim插件增加自动切换为英文输入法的功能,
+" idea 需要安装 IdeaVimExtension plugin
+set keep-english-in-normal
 
 "
 let g:highlightedyank_highlight_duration = "1000"
@@ -34,10 +27,6 @@ let g:highlightedyank_highlight_duration = "1000"
 let g:highlightedyank_highlight_duration = "-1"
 " if you want to change background color of highlight you can provide the rgba of the color you want e.g.
 let g:highlightedyank_highlight_color = "rgba(160, 160, 160, 155)"
-
-" <C-n> seems to me as a better solution than <M-n>,
-" but we should finally support vim-visual-multi because vim-multiple-cursors is deprecated now
-map <C-n> <Plug>NextWholeOccurrence
 
 """ Common settings -------------------------
 set showmode
@@ -49,90 +38,159 @@ set nu
 set ideajoin
 set ideastatusicon=gray
 
-""" My Mappings -----------------------------
-map <leader>f <Plug>(easymotion-s)
-map <leader>e <Plug>(easymotion-f)
-
-map <leader>d <Action>(Debug)
-map <leader>r <Action>(RenameElement)
-map <leader>c <Action>(Stop)
-map <leader>z <Action>(ToggleDistractionFreeMode)
-
-map <leader>s <Action>(SelectInProjectView)
-map <leader>a <Action>(Annotate)
-map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
-map <S-Space> <Action>(GotoNextError)
-
-" Reformat the current line only
-map <leader>l V<Action>(ReformatCode)
-
-map <leader>b <Action>(ToggleLineBreakpoint)
-map <leader>o <Action>(FileStructurePopup)
-
-
-map <leader>J Ji <ESC>
-
-" Toggle case and start typing. E.g. `<leader>iget`: `property` -> `getProperty`
-map <leader>i ~hi
-" Remove selection and toggle case. E.g. `v2l<leader>u`: `getProperty` -> `property`
-vmap <leader>u d~h
-
-" I think it's a better solution
-map U <C-R>
 
 """ Strict mode for development ---------------
 set ideastrictmode
-    
-" Key (re)Mappings {
-    "nm  <space> <nop>
 
-    "nm 0 ^
-    "nm B ^
-   "" nm E $
-    "nm j gj
-    "nm k gk
-    "nm Y y$
+""" keymap --------------------------
 
-    " Tab ctrl
-    nm <c-h> gT
-    nm <c-l> gt
-    nm <tab> <c-w>w
+""""""""""""""""""""""""""""""""普通篇""""""""""""""""""""""""""
+nmap <leader>J Ji <ESC>
+im jj <esc>
+nmap <leader>s :action FileStructurePopup<CR>
+" normal mode , easy to work
+nnoremap <leader><CR>  A<CR><ESC>
+" time & date map
+nm <leader>da "=strftime("%y%m%d")<cr>p"
+nm <leader>ti "=strftime("%h:%m:%s")<cr>p"
 
-    nnoremap x "_x
-	nnoremap X "_X
-	vm x "_x
-	vm X "_X
-
-	nnoremap <leader>diw "_diw
-	vm <leader>diw "_diw
-
-	nnoremap <leader>ciw "_ciw
-	vm <leader>ciw "_ciw
-
-    im jj <esc>
-   
-	nnoremap x "_x
-	nnoremap X "_X
-	vm x "_x
-	vm X "_X
-	
-	nnoremap <leader>diw "_diw
-	vm <leader>diw "_diw
+" control map
+im <M-j> <Down>
+im <M-k> <UP>
 
 
-    " stop arrow key
-    noremap <Up> <NOP>
-    noremap <Down> <NOP>
-    noremap <Left> <NOP>
-    noremap <Right> <NOP>
+" stop arrow key
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+"noremap s <NOP>
+"noremap S <NOP>
 
-    nm <leader>qq :q!<cr>
-    nm <leader>xx :qa!<cr>
-    nm <leader>t  :set ft=
-    nm <silent> <leader>/ :nohlsearch<CR>
+" Tab ctrl
+"nm <tab> <c-w>w
 
-    " time & date map
-    nm <leader>da "=strftime("%y%m%d")<cr>p"
-    nm <leader>ti "=strftime("%h:%m:%s")<cr>p"
+""" My Mappings -----------------------------
+
+"""""""""""""""""""""""git """"""""""""""""""""""""""""
+nmap <leader>a <Action>(Annotate)
+nmap <leader>gh <Action>(Vcs.ShowTabbedFileHistory)
+nmap <leader>gz <Action>(Vcs.RollbackChangedLines)
+nmap <leader>push <Action>(Vcs.Push)
+nmap <leader>pull <Action>(Git.Pull)
 
 
+""""""""""""""""""""""""maven"""""""""""""""""""""""""
+
+nmap <leader>mr <Action>(Maven.Reimport)
+nmap <leader>mi <Action>(Maven.RunBuild)
+
+
+"""""""""""""""""""""""""""""""""""""edit 修改篇"""""""""""""""""""""""""""""""
+nmap <leader>dl ^f=gEld$a;jj
+nmap <leader>dh ^f=wd^
+nmap <leader>cl ^f=wc$
+nmap <leader>ch ^f=gElc^
+" I think it's a better solution
+"nmap U <C-R>
+
+"""""""""""""""""""""""""""""""""""""""test 测试篇""""""""""""""""""""""""""""""""""""
+
+"debug神器
+nmap <C-j> :action StepOver<CR>
+nmap <C-k> :action Resume<CR>
+nmap <C-h> :action StepOut<CR>
+nmap <C-l> :action StepInto<CR>
+
+nmap <leader><leader>d <Action>(Debug)
+nmap <leader><leader>r <Action>(Run)
+nmap <leader><leader>c <Action>(Stop)
+
+nmap <leader>b <Action>(ToggleLineBreakpoint)
+
+""""""""""""""""""""""""""""""""""""""jump 跳转篇""""""""""""""""""""""""""""""""""""""
+"^$符号太难按了
+nmap gh ^
+nmap gl $
+
+" 函数跳转
+nmap <leader>fk :action GotoImplementation<CR>
+nmap <leader>fj :action GotoSuperMethod<CR>
+
+"nmap <S-Space> <Action>(GotoNextError)
+
+""""""""""""""""""""""""""""""""""""""run 运行篇""""""""""""""""""""""""""""""""""""""
+"设置运行配置
+nnoremap <leader>rc :action RunConfiguration<CR>
+"运行上次运行的类
+"noremap <leader><leader>r :action Run<CR>
+"运行当前(now)类
+"noremap <leader>rl :action RunClass<CR>
+"debug上次运行的类
+noremap <leader>dh :action Debug<CR>
+"debug当前(now)类
+"noremap <leader>dl :action DebugClass<CR>
+"统计单元测试覆盖率运行上个类
+"noremap <leader>cc :action Coverage<CR>
+"统计单元测试覆盖率运行当前(now)类
+"noremap <leader>cn :action RunCoverage<CR>
+"项目停止运行
+"noremap <leader>sw   :action Stop<CR>
+
+
+""""""""""""""""""""""""""""""""""""""windows 窗口篇""""""""""""""""""""""""""""""""""""""
+"隐藏所有窗口
+noremap <leader>ha :action HideAllWindows<CR>
+
+" windows open
+nmap <leader>1 :action ActivateProjectToolWindow<CR>
+nmap <leader>2 :action ActivateVersionControlToolWindow<CR>
+nmap <leader>3 :action ActivateCommitToolWindow<CR>
+nmap <leader>4 :action ActivateTerminalToolWindow<CR>
+
+" project operate
+nmap <leader><Left> :action NextProjectWindow<CR>
+nmap <leader><Right> :action PreviousProjectWindow<CR>
+
+
+nmap <leader>z <Action>(ToggleDistractionFreeMode)
+
+""""""""""""""""""""""""""""""""""""""refactor section""""""""""""""""""""""""""""""""""""""
+"成员变量转换为静态变量重构(配合移动重构有奇效)
+noremap <leader>ms :action MakeStatic<CR>
+"静态变量转换为成员变量重构
+noremap <leader>ci :action ConvertToInstanceMethod<CR>
+"移动重构
+noremap <leader>mv :action Move<CR>
+"修改方法签名
+noremap <leader>cs  :action ChangeSignature<CR>
+"元素名称重构
+noremap <leader>re :action RenameElement<CR>
+
+
+
+"""""""""""""""""""""""""""""""""vimrc """"""""""""""""""""""""""
+" quick open vimrc in a new tab
+nm <leader><leader>v  :e ~/.ideavimrc<cr>
+nm <leader><leader>s  :source ~/.ideavimrc<cr>
+
+""""""""""""""""""""""""""""""""""""plugin 插件篇""""""""""""""""""""""""""
+
+" Remap multiple-cursors shortcuts for Mac
+"" multiple-cursors
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap <C-x> <Plug>SkipOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+nmap <C-p> <Plug>RemoveOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+nmap <S-C-n> <Plug>AllWholeOccurrences
+xmap <S-C-n> <Plug>AllWholeOccurrences
+
+" <C-n> seems to me as a better solution than <M-n>,
+" but we should finally support vim-visual-multi because vim-multiple-cursors is deprecated now
+nmap <C-n> <Plug>NextWholeOccurrence
+
+""easymotion plugin
+nmap <leader>f <Plug>(easymotion-s)
+nmap <leader>e <Plug>(easymotion-f)
