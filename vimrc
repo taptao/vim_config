@@ -259,8 +259,6 @@ call plug#end()
     " delete but not copy
     nnoremap x "_x
     nnoremap X "_X
-    vm x "_x
-    vm X "_X
 	
     nnoremap <leader>diw "_diw
     vm <leader>diw "_diw
