@@ -68,7 +68,7 @@ noremap <Right> <NOP>
 "noremap S <NOP>
 
 " Tab ctrl
-"nm <tab> <c-w>w
+nm <tab> <c-w>w
 
 """ My Mappings -----------------------------
 
@@ -91,6 +91,9 @@ nmap <leader>dl ^f=gEld$a;jj
 nmap <leader>dh ^f=wd^
 nmap <leader>cl ^f=wc$
 nmap <leader>ch ^f=gElc^
+
+" replace current word to word in buffer
+nmap <leader>rp griw
 " I think it's a better solution
 "nmap U <C-R>
 
@@ -112,8 +115,11 @@ nmap <leader>b <Action>(ToggleLineBreakpoint)
 "^$符号太难按了
 nmap gh ^
 nmap gl $
+vmap gh ^
+vmap gl $
 
 " 函数跳转
+nmap <leader>fh :action GotoDeclaration<CR>
 nmap <leader>fk :action GotoImplementation<CR>
 nmap <leader>fj :action GotoSuperMethod<CR>
 
@@ -127,7 +133,7 @@ nnoremap <leader>rc :action RunConfiguration<CR>
 "运行当前(now)类
 "noremap <leader>rl :action RunClass<CR>
 "debug上次运行的类
-noremap <leader>dh :action Debug<CR>
+"noremap <leader>dh :action Debug<CR>
 "debug当前(now)类
 "noremap <leader>dl :action DebugClass<CR>
 "统计单元测试覆盖率运行上个类
@@ -155,6 +161,7 @@ nmap <leader><Right> :action PreviousProjectWindow<CR>
 
 nmap <leader>z <Action>(ToggleDistractionFreeMode)
 
+
 """"""""""""""""""""""""""""""""""""""refactor section""""""""""""""""""""""""""""""""""""""
 "成员变量转换为静态变量重构(配合移动重构有奇效)
 noremap <leader>ms :action MakeStatic<CR>
@@ -166,6 +173,8 @@ noremap <leader>mv :action Move<CR>
 noremap <leader>cs  :action ChangeSignature<CR>
 "元素名称重构
 noremap <leader>re :action RenameElement<CR>
+"成员变量下移
+noremap <leader>md :action MemberPushDown<CR>
 
 
 
@@ -192,5 +201,9 @@ xmap <S-C-n> <Plug>AllWholeOccurrences
 nmap <C-n> <Plug>NextWholeOccurrence
 
 ""easymotion plugin
+
 nmap <leader>f <Plug>(easymotion-s)
 nmap <leader>e <Plug>(easymotion-f)
+
+""kdoc format plugin
+nmap <leader>mm :action ReflowKDoc<CR>
